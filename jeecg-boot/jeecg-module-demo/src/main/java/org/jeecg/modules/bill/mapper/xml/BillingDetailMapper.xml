@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.bill.mapper.BillingDetailMapper">
+    <resultMap id="selectByMainIdMap" type="org.jeecg.modules.bill.entity.BillingDetail">
+        <id column="bId" property="id"/>
+        <result column="bCode" property="code"/>
+        <result column="count" property="count"/>
+        <result column="number" property="number"/>
+        <result column="loose_item" property="looseItem"/>
+        <result column="expected_delivery" property="expectedDelivery"/>
+        <result column="source" property="source"/>
+        <result column="source_number" property="sourceNumber"/>
+        <result column="bill_id" property="billId"/>
+        <result column="expected_payment" property="expectedPayment"/>
+        <result column="warehouse_in_number" property="warehouseInNumber"/>
+        <result column="tax_included_amount" property="taxIncludedAmount"/>
+        <result column="amount" property="amount"/>
+        <result column="tax" property="tax"/>
+        <association property="material" javaType="org.jeecg.modules.initial.entity.Material">
+            <id column="mId" property="id"/>
+            <result column="mCode" property="code"/>
+            <result column="material_name" property="materialName"/>
+            <result column="size" property="size"/>
+            <result column="owning_code" property="owningCode"/>
+            <result column="unit" property="unit"/>
+            <result column="price_included_tax" property="priceIncludedTax"/>
+            <result column="rate" property="rate"/>
+            <result column="unit_load" property="unitLoad"/>
+            <result column="price" property="price"/>
+        </association>
+    </resultMap>
+
+    <delete id="deleteByMainId" parameterType="java.lang.String">
+        DELETE
+        FROM byx_billing_detail
+        WHERE bill_id = #{mainId}    </delete>
+
+    <sql id="bbdColumn">
+        bbd
+        .
+        id
+        bId,
+        bbd.code bCode,
+        bbd.count,
+        bbd.number,
+        bbd.loose_item,
+        bbd.expected_delivery,
+        bbd.source,
+        bbd.source_number,
+        bbd.bill_id,
+        bbd.expected_payment,
+        bbd.warehouse_in_number,
+        bbd.tax_included_amount,
+        bbd.amount,
+        bbd.tax
+    </sql>
+
+    <sql id="bmColumn">
+        bm
+        .
+        unit_load
+        ,
+               bm.id mId,
+               bm.code mCode,
+               bm.material_name,
+               bm.size,
+               bm.owning_code,
+               bm.unit,
+               bm.price_included_tax,
+               bm.rate,
+               bm.price
+    </sql>
+
+    <select id="selectByMainId" resultMap="selectByMainIdMap">
+        SELECT
+        <include refid="bbdColumn"/>,
+        <include refid="bmColumn"/>
+        FROM byx_billing_detail bbd
+        JOIN byx_material bm USING (code)
+        WHERE bill_id = #{mainId}
+    </select>
+</mapper>

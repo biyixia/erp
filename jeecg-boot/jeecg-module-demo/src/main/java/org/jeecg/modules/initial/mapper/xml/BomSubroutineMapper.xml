@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.initial.mapper.BomSubroutineMapper">
+
+	<delete id="deleteByMainId" parameterType="java.lang.String">
+		DELETE 
+		FROM  byx_bom_subroutine 
+		WHERE
+			 bom_id = #{mainId} 	</delete>
+	
+	<select id="selectByMainId" parameterType="java.lang.String" resultType="org.jeecg.modules.initial.entity.BomSubroutine">
+		SELECT * 
+		FROM  byx_bom_subroutine
+		WHERE
+			bom_id = #{mainId} 	</select>
+</mapper>
